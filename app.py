@@ -28,16 +28,46 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
+    /* ── Force dark theme on entire app ── */
+    .stApp {
+        background-color: #0a1628 !important;
+        color: #e2e8f0 !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
     /* Hide default Streamlit elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    .stApp {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Force all text to light color */
+    .stApp p, .stApp span, .stApp li, .stApp td, .stApp th, .stApp label,
+    .stApp .stMarkdown, .stApp div {
+        color: #e2e8f0;
     }
 
-    /* Header bar */
+    /* ── Expander sections ── */
+    [data-testid="stExpander"] {
+        background: #132137 !important;
+        border: 1px solid #2d3e56 !important;
+        border-radius: 8px !important;
+    }
+    [data-testid="stExpander"] details {
+        background: #132137 !important;
+    }
+    [data-testid="stExpander"] summary {
+        color: #e2e8f0 !important;
+    }
+    [data-testid="stExpander"] summary span,
+    [data-testid="stExpander"] summary p {
+        color: #e2e8f0 !important;
+    }
+    /* Expander body content */
+    [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+        background: #132137 !important;
+    }
+
+    /* ── Header bar ── */
     .header-bar {
         background: #0d1b2e;
         border-bottom: 1px solid #2d3e56;
@@ -76,33 +106,12 @@ st.markdown("""
         text-align: right;
     }
 
-    /* Info cards */
-    .info-card {
-        background: #0a1628;
-        border: 1px solid #2d3e56;
-        border-radius: 6px;
-        padding: 12px 16px;
-    }
-    .info-card .label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #64748b;
-        margin-bottom: 4px;
-    }
-    .info-card .value {
-        font-size: 1.4rem;
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        color: #e2e8f0;
-    }
+    /* ── Badges ── */
+    .badge-green { background: rgba(16,185,129,0.15); color: #10b981 !important; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+    .badge-red { background: rgba(239,68,68,0.15); color: #ef4444 !important; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
+    .badge-yellow { background: rgba(245,158,11,0.15); color: #f59e0b !important; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
 
-    /* Badges */
-    .badge-green { background: rgba(16,185,129,0.15); color: #10b981; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
-    .badge-red { background: rgba(239,68,68,0.15); color: #ef4444; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
-    .badge-yellow { background: rgba(245,158,11,0.15); color: #f59e0b; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: 0.75rem; }
-
-    /* Alert banners */
+    /* ── Alert banners ── */
     .alert-banner {
         padding: 10px 16px;
         border-radius: 6px;
@@ -110,12 +119,12 @@ st.markdown("""
         font-size: 0.9rem;
         margin-bottom: 12px;
     }
-    .alert-green { background: rgba(16,185,129,0.12); color: #10b981; border-left: 4px solid #10b981; }
-    .alert-red { background: rgba(239,68,68,0.12); color: #ef4444; border-left: 4px solid #ef4444; }
-    .alert-yellow { background: rgba(245,158,11,0.12); color: #f59e0b; border-left: 4px solid #f59e0b; }
-    .alert-grey { background: rgba(100,116,139,0.12); color: #94a3b8; border-left: 4px solid #64748b; }
+    .alert-green { background: rgba(16,185,129,0.12); color: #10b981 !important; border-left: 4px solid #10b981; }
+    .alert-red { background: rgba(239,68,68,0.12); color: #ef4444 !important; border-left: 4px solid #ef4444; }
+    .alert-yellow { background: rgba(245,158,11,0.12); color: #f59e0b !important; border-left: 4px solid #f59e0b; }
+    .alert-grey { background: rgba(100,116,139,0.12); color: #94a3b8 !important; border-left: 4px solid #64748b; }
 
-    /* Stop loss display */
+    /* ── Stop loss display ── */
     .stop-loss-box {
         text-align: center;
         padding: 16px;
@@ -124,78 +133,155 @@ st.markdown("""
         border-radius: 6px;
         margin: 12px 0;
     }
-    .stop-loss-box .sl-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; }
-    .stop-loss-box .sl-value { font-size: 2rem; font-weight: 700; color: #ef4444; }
+    .stop-loss-box .sl-label { font-size: 0.8rem; color: #64748b !important; text-transform: uppercase; }
+    .stop-loss-box .sl-value { font-size: 2rem; font-weight: 700; color: #ef4444 !important; }
 
-    /* Verdict boxes */
+    /* ── Verdict boxes ── */
     .verdict-enter {
-        background: rgba(16,185,129,0.15); color: #10b981; border: 2px solid #10b981;
+        background: rgba(16,185,129,0.15); color: #10b981 !important; border: 2px solid #10b981;
         padding: 12px; border-radius: 6px; text-align: center; font-weight: 700; font-size: 1.1rem;
     }
     .verdict-no {
-        background: rgba(239,68,68,0.15); color: #ef4444; border: 2px solid #ef4444;
+        background: rgba(239,68,68,0.15); color: #ef4444 !important; border: 2px solid #ef4444;
         padding: 12px; border-radius: 6px; text-align: center; font-weight: 700; font-size: 1.1rem;
     }
 
-    /* Phase banner */
+    /* ── Phase banner ── */
     .phase-banner {
         padding: 10px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem;
-        margin-bottom: 12px; border-left: 4px solid #2d3e56; background: rgba(45,62,86,0.2); color: #e2e8f0;
+        margin-bottom: 12px; border-left: 4px solid #2d3e56; background: rgba(45,62,86,0.2); color: #e2e8f0 !important;
     }
     .phase-paused {
         border-left-color: #ef4444 !important; background: rgba(239,68,68,0.12) !important; color: #ef4444 !important;
     }
 
-    /* Timer boxes */
+    /* ── Timer boxes ── */
     .timer-box {
         background: #0a1628; border: 1px solid #2d3e56; border-radius: 6px;
         padding: 12px; text-align: center;
     }
-    .timer-label { font-size: 0.72rem; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
-    .timer-value { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; color: #e2e8f0; }
+    .timer-label { font-size: 0.72rem; color: #64748b !important; text-transform: uppercase; margin-bottom: 4px; }
+    .timer-value { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; color: #e2e8f0 !important; }
 
-    /* Delay indicator */
-    .delay-indicator {
-        display: inline-flex; align-items: center; gap: 6px;
-        font-size: 0.75rem; color: #64748b;
-    }
-    .delay-dot {
-        width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-    }
-    .delay-live { background: #10b981; }
-    .delay-delayed { background: #f59e0b; }
-    .delay-stale { background: #ef4444; }
-
-    /* Highlight boxes for playbook */
+    /* ── Highlight boxes for playbook ── */
     .highlight-box {
         background: #0a1628; border: 1px solid #2d3e56; border-radius: 6px;
-        padding: 12px 16px; margin: 12px 0; font-size: 0.85rem; color: #94a3b8;
+        padding: 12px 16px; margin: 12px 0; font-size: 0.85rem; color: #94a3b8 !important;
     }
+    .highlight-box strong { color: #e2e8f0 !important; }
+    .highlight-box li { color: #94a3b8 !important; }
     .highlight-box.info { border-left: 4px solid #2563eb; }
     .highlight-box.warn { border-left: 4px solid #f59e0b; }
     .highlight-box.danger { border-left: 4px solid #ef4444; }
 
-    /* Stat cards */
-    .stat-card {
-        background: #0a1628; border: 1px solid #2d3e56; border-radius: 6px; padding: 10px 14px;
-    }
-    .stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.3px; color: #64748b; }
-    .stat-value { font-size: 1.2rem; font-weight: 700; margin-top: 2px; }
-
-    /* Better table styling */
-    .stDataFrame { font-variant-numeric: tabular-nums; }
-
-    /* Fix metric styling */
+    /* ── Metric cards (VIX, SPY, BIAS, etc.) ── */
     [data-testid="stMetric"] {
-        background: #0a1628;
-        border: 1px solid #2d3e56;
-        border-radius: 6px;
-        padding: 12px 16px;
+        background: #0a1628 !important;
+        border: 1px solid #2d3e56 !important;
+        border-radius: 6px !important;
+        padding: 12px 16px !important;
     }
     [data-testid="stMetricLabel"] {
         font-size: 0.7rem !important;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+    }
+    [data-testid="stMetricLabel"] p,
+    [data-testid="stMetricLabel"] label,
+    [data-testid="stMetricLabel"] span {
+        color: #64748b !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: #e2e8f0 !important;
+    }
+    [data-testid="stMetricDelta"] {
+        color: #94a3b8 !important;
+    }
+
+    /* ── Form inputs ── */
+    .stTextInput input, .stNumberInput input, .stTextArea textarea {
+        background: #0a1628 !important;
+        color: #e2e8f0 !important;
+        border-color: #2d3e56 !important;
+    }
+    .stSelectbox > div > div {
+        background: #0a1628 !important;
+        color: #e2e8f0 !important;
+    }
+    .stTextInput label, .stNumberInput label, .stTextArea label, .stSelectbox label, .stCheckbox label {
+        color: #94a3b8 !important;
+    }
+
+    /* ── Buttons ── */
+    .stButton button {
+        background: #1e3a5f !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #2d3e56 !important;
+    }
+    .stButton button:hover {
+        background: #2563eb !important;
+        border-color: #2563eb !important;
+    }
+    .stFormSubmitButton button {
+        background: #2563eb !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+
+    /* ── Tables / DataFrames ── */
+    .stDataFrame { font-variant-numeric: tabular-nums; }
+    .stDataFrame [data-testid="stDataFrameResizable"] {
+        background: #0a1628 !important;
+    }
+
+    /* ── Dividers ── */
+    hr {
+        border-color: #2d3e56 !important;
+    }
+
+    /* ── Streamlit info/success/error boxes ── */
+    .stAlert {
+        background: #132137 !important;
+        color: #e2e8f0 !important;
+    }
+
+    /* ── Captions ── */
+    .stCaption, [data-testid="stCaptionContainer"] {
+        color: #64748b !important;
+    }
+    [data-testid="stCaptionContainer"] p {
+        color: #64748b !important;
+    }
+
+    /* ── Markdown tables inside expanders ── */
+    [data-testid="stExpander"] table {
+        background: #0a1628 !important;
+    }
+    [data-testid="stExpander"] table th {
+        background: #1e3a5f !important;
+        color: #e2e8f0 !important;
+        border-color: #2d3e56 !important;
+    }
+    [data-testid="stExpander"] table td {
+        background: #0a1628 !important;
+        color: #e2e8f0 !important;
+        border-color: #2d3e56 !important;
+    }
+
+    /* ── File uploader ── */
+    [data-testid="stFileUploader"] {
+        color: #94a3b8 !important;
+    }
+    [data-testid="stFileUploader"] section {
+        background: #0a1628 !important;
+        border-color: #2d3e56 !important;
+    }
+
+    /* ── Download button ── */
+    .stDownloadButton button {
+        background: #1e3a5f !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #2d3e56 !important;
     }
 </style>
 """, unsafe_allow_html=True)
